@@ -86,15 +86,15 @@ func (tkr *ticker) UnmarshalJSON(b []byte) (err error) {
 		}
 
 		switch k {
-		case "high":
+		case fieldNameHigh:
 			tkr.High = valStr
-		case "low":
+		case fieldNameLow:
 			tkr.Low = valStr
-		case "last":
+		case fieldNameAmount:
 			tkr.Last = valStr
-		case "buy":
+		case fieldNameBuy:
 			tkr.Buy = valStr
-		case "sell":
+		case fieldNameSell:
 			tkr.Sell = valStr
 		default:
 			if !strings.HasPrefix(k, "vol_") {
