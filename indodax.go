@@ -2,6 +2,9 @@ package indodax
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+	"time"
 )
 
 const (
@@ -47,4 +50,34 @@ func printDebug(info interface{}) {
 	if debug == "DEV" {
 		fmt.Printf("DEBUG >>> %v", info)
 	}
+}
+
+func jsonToMapStringFloat64(in map[string]interface{}) (
+	out map[string]float64, err error,
+) {
+	out = make(map[string]float64, len(in))
+
+	for k, v := range in {
+		val64, err := strconv.ParseFloat(v.(string), 64)
+		if err != nil {
+			return nil, err
+		}
+		k = strings.ToLower(k)
+		out[k] = val64
+	}
+	return out, nil
+}
+
+//
+// timestamp return current time in milliseconds as integer.
+//
+func timestampMiliSecond() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
+}
+
+//
+// timestampAsString return current time in milliseconds as string.
+//
+func timestampAsString() string {
+	return strconv.FormatInt(timestampMiliSecond(), 10)
 }
