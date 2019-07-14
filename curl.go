@@ -34,6 +34,6 @@ func (cl *Client) curlPublic(urlPath string) (body []byte, err error) {
 	}
 
 	printDebug(string(body))
-	
+
 	return body, nil
 }

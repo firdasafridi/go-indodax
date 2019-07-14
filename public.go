@@ -55,3 +55,25 @@ func (cl *Client) GetOrderBook(pairName string) (orderBook *OrderBook, err error
 
 	return orderBook, nil
 }
+
+func (cl *Client) GetListTrades(pairName string) (listTrade []*Trade, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+
+	urlPath := fmt.Sprintf(pathTrades, pairName)
+
+	body, err := cl.curlPublic(urlPath)
+	if err != nil {
+		return nil, fmt.Errorf("GetListTrades: " + err.Error())
+	}
+
+	printDebug(string(body))
+
+	err = json.Unmarshal(body, &listTrade)
+	if err != nil {
+		return nil, fmt.Errorf("GetListTrades: " + err.Error())
+	}
+
+	return listTrade, nil
+}
