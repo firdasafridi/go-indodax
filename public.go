@@ -77,3 +77,21 @@ func (cl *Client) GetListTrades(pairName string) (listTrade []*Trade, err error)
 
 	return listTrade, nil
 }
+
+func (cl *Client) GetSummaries() (summaries *Summary, err error) {
+
+	urlPath := pathSummaries
+	body, err := cl.curlPublic(urlPath)
+	if err != nil {
+		return nil, fmt.Errorf("GetSummaries: " + err.Error())
+	}
+
+	printDebug(string(body))
+
+	err = json.Unmarshal(body, &summaries)
+	if err != nil {
+		return nil, fmt.Errorf("GetSummaries: " + err.Error())
+	}
+
+	return summaries, nil
+}

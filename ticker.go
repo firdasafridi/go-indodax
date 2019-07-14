@@ -19,6 +19,7 @@ type Ticker struct {
 }
 
 type ticker struct {
+	Name	string
 	High    string
 	Low     string
 	volumes map[string]string
@@ -33,27 +34,37 @@ type tickerResponse struct {
 
 func (tkr *tickerResponse) toTicker(pairName string) (ticker *Ticker, err error) {
 
-	high, _ := strconv.ParseFloat(tkr.Ticker.High, 64)
+	ticker, err = tkr.Ticker.toTicker(pairName)
+	if err != nil {
+		return nil, err
+	}
 
-	low, _ := strconv.ParseFloat(tkr.Ticker.Low, 64)
+	return ticker, nil
+}
+
+func (tkr *ticker) toTicker(pairName string) (ticker *Ticker, err error) {
+
+	high, _ := strconv.ParseFloat(tkr.High, 64)
+
+	low, _ := strconv.ParseFloat(tkr.Low, 64)
 
 	var assetVolume, baseVolume float64 = 0, 0
 	volName := strings.Split(pairName, "_")
-	if len(tkr.Ticker.volumes) < 2 {
+	if len(tkr.volumes) < 2 {
 		return ticker, err
 	}
-	if v, ok := tkr.Ticker.volumes[volName[0]]; ok {
+	if v, ok := tkr.volumes[volName[0]]; ok {
 		assetVolume, _ = strconv.ParseFloat(v, 64)
 	}
-	if v, ok := tkr.Ticker.volumes[volName[1]]; ok {
+	if v, ok := tkr.volumes[volName[1]]; ok {
 		baseVolume, _ = strconv.ParseFloat(v, 64)
 	}
 
-	last, _ := strconv.ParseFloat(tkr.Ticker.Last, 64)
+	last, _ := strconv.ParseFloat(tkr.Last, 64)
 
-	buy, _ := strconv.ParseFloat(tkr.Ticker.Buy, 64)
+	buy, _ := strconv.ParseFloat(tkr.Buy, 64)
 
-	sell, _ := strconv.ParseFloat(tkr.Ticker.Sell, 64)
+	sell, _ := strconv.ParseFloat(tkr.Sell, 64)
 
 	ticker = &Ticker{
 		PairName:    pairName,
@@ -115,6 +126,8 @@ func (tkr *ticker) UnmarshalJSON(b []byte) (err error) {
 
 	return nil
 }
+
+
 
 // func (tkr *Ticker) ToJson() (err error) {
 
