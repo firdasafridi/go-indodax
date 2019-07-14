@@ -24,6 +24,19 @@ const (
 	pathTrades    = "/%s/trades"
 )
 
+const (
+	fieldNameAmount = "amount"
+	fieldNameHigh   = "high"
+	fieldNameLow    = "low"
+	fieldNameLast   = "last"
+	fieldNameBuy    = "buy"
+	fieldNameSell   = "sell"
+	fieldNameTID    = "tid"
+	fieldNameType   = "type"
+	fieldNamePrice  = "price"
+	fieldNameDate   = "date"
+)
+
 var (
 	debug = "PROD"
 )
