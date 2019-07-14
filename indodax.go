@@ -20,7 +20,7 @@ const (
 	// path connection to public api
 	pathTicker    = "/%s/ticker"
 	pathDepth     = "/%s/depth"
-	pathSummaries = "summaries"
+	pathSummaries = "/summaries"
 	pathTrades    = "/%s/trades"
 )
 
@@ -35,6 +35,10 @@ const (
 	fieldNameType   = "type"
 	fieldNamePrice  = "price"
 	fieldNameDate   = "date"
+	fieldNameName   = "name"
+	fieldNameTickers = "tickers"
+	fieldNamePrices24h = "prices_24h"
+	fieldNamePrices7d = "prices_7d"
 )
 
 var (
