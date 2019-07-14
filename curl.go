@@ -33,9 +33,7 @@ func (cl *Client) curlPublic(urlPath string) (body []byte, err error) {
 		return nil, fmt.Errorf("curlPublic: " + err.Error())
 	}
 
-	if debug == "DEV" {
-		fmt.Println(string(body))
-	}
-
+	printDebug(string(body))
+	
 	return body, nil
 }
