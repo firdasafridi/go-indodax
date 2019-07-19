@@ -78,7 +78,7 @@ func (cl *Client) newPrivateRequest(apiMethod string, params url.Values) (
 		},
 	}
 
-	virtualParams	:= map[string][]string(params)
+	virtualParams := map[string][]string(params)
 	for k, v := range virtualParams {
 		if len(v) > 0 {
 			query.Set(k, v[0])
@@ -112,11 +112,11 @@ func (cl *Client) newPrivateRequest(apiMethod string, params url.Values) (
 		err = fmt.Errorf("newPrivateRequest: " + err.Error())
 		return nil, err
 	}
-	return req,  nil
+	return req, nil
 }
 
-func (cl *Client) encodeToHmac512(param string) (string) {
-	sign := hmac.New(sha512.New,[]byte(cl.env.apiSecret))
+func (cl *Client) encodeToHmac512(param string) string {
+	sign := hmac.New(sha512.New, []byte(cl.env.apiSecret))
 
 	sign.Write([]byte(param))
 

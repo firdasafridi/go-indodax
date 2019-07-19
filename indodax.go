@@ -25,28 +25,28 @@ const (
 )
 
 const (
-	fieldNameAmount = "amount"
-	fieldNameWalletAddress = "address"
-	fieldNameBalance = "balance"
-	fieldNameBalanceHold = "balance_hold"
-	fieldNameHigh   = "high"
-	fieldNameLow    = "low"
-	fieldNameLast   = "last"
-	fieldNameBuy    = "buy"
-	fieldNameSell   = "sell"
-	fieldNameTID    = "tid"
-	fieldNameType   = "type"
-	fieldNamePrice  = "price" 
-	fieldNameDate   = "date"
-	fieldNameName   = "name"
-	fieldNameTickers = "tickers"
-	fieldNamePrices24h = "prices_24h"
-	fieldNamePrices7d = "prices_7d"
-	fieldNameUserId = "user_id"
+	fieldNameAmount         = "amount"
+	fieldNameWalletAddress  = "address"
+	fieldNameBalance        = "balance"
+	fieldNameBalanceHold    = "balance_hold"
+	fieldNameHigh           = "high"
+	fieldNameLow            = "low"
+	fieldNameLast           = "last"
+	fieldNameBuy            = "buy"
+	fieldNameSell           = "sell"
+	fieldNameTID            = "tid"
+	fieldNameType           = "type"
+	fieldNamePrice          = "price"
+	fieldNameDate           = "date"
+	fieldNameName           = "name"
+	fieldNameTickers        = "tickers"
+	fieldNamePrices24h      = "prices_24h"
+	fieldNamePrices7d       = "prices_7d"
+	fieldNameUserId         = "user_id"
 	fieldNameProfilePicture = "profile_picture"
-	fieldNameUserName = "name"
+	fieldNameUserName       = "name"
 	fieldNameUserServerTime = "server_time"
-	fieldNameEmail = "email"
+	fieldNameEmail          = "email"
 )
 
 var (
@@ -95,7 +95,7 @@ func jsonToMapStringFloat64(in map[string]interface{}) (
 	out = make(map[string]float64, len(in))
 
 	for k, v := range in {
-		val64, err := strconv.ParseFloat(fmt.Sprintf("%v",v), 64)
+		val64, err := strconv.ParseFloat(fmt.Sprintf("%v", v), 64)
 		if err != nil {
 			return nil, err
 		}
@@ -112,7 +112,7 @@ func jsonToMapStringString(in map[string]interface{}) (
 
 	for k, v := range in {
 		k = strings.ToLower(k)
-		out[k] = fmt.Sprintf("%v",v)
+		out[k] = fmt.Sprintf("%v", v)
 	}
 	return out, nil
 }

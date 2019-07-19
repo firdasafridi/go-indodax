@@ -26,5 +26,4 @@ func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
 	printDebug(cl.Info)
 
 	return cl.Info, nil
-} 
-
+}
