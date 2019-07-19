@@ -3,6 +3,7 @@ package indodax
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
@@ -47,4 +48,53 @@ func (cl *Client) TransHistory() (transHistory *TransHistory, err error) {
 	printDebug(respTransHistory)
 
 	return respTransHistory.Return, nil
+}
+
+func (cl *Client) OpenOrders(pairName string) (openOrders []OpenOrders, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+
+	params := url.Values{}
+	params.Set("pair", pairName)
+
+	respBody, err := cl.curlPrivate(apiViewOpenOrders, params)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respOpenOrders := &responseOpenOrders{}
+
+	err = json.Unmarshal(respBody, respOpenOrders)
+	if err != nil {
+		err = fmt.Errorf("OpenOrders: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respOpenOrders)
+
+	return respOpenOrders.Return.Orders, nil
+}
+
+func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err error) {
+	respBody, err := cl.curlPrivate(apiViewOpenOrders, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respOpenOrders := &responseAllOpenOrders{}
+
+	err = json.Unmarshal(respBody, respOpenOrders)
+	if err != nil {
+		err = fmt.Errorf("OpenOrders: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respOpenOrders)
+
+	return respOpenOrders.Return.Orders, nil
 }
