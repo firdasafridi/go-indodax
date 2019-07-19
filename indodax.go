@@ -29,6 +29,7 @@ const (
 	fieldNameWalletAddress  = "address"
 	fieldNameBalance        = "balance"
 	fieldNameBalanceHold    = "balance_hold"
+	fieldNameFee    		= "fee"
 	fieldNameHigh           = "high"
 	fieldNameLow            = "low"
 	fieldNameLast           = "last"
@@ -47,6 +48,11 @@ const (
 	fieldNameUserName       = "name"
 	fieldNameUserServerTime = "server_time"
 	fieldNameEmail          = "email"
+	fieldNameStatus         = "status"
+	fieldNameSubmitTime     = "submit_time"
+	fieldNameSuccessTime    = "success_time"
+	fieldNameWithdrawID   = "withdraw_id"
+	fieldNameDepositID   = "deposit_id"
 )
 
 var (
