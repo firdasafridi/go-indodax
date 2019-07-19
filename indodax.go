@@ -51,10 +51,12 @@ const (
 	fieldNameStatus         = "status"
 	fieldNameSubmitTime     = "submit_time"
 	fieldNameSuccessTime    = "success_time"
+	fieldNameTradeTime      = "trade_time"
 	fieldNameWithdrawID     = "withdraw_id"
 	fieldNameDepositID      = "deposit_id"
 	fieldNameOrderID        = "order_id"
 	fieldNameRemain         = "remain"
+	fieldNameTradeID        = "trade_id"
 	fieldNameOrder          = "order"
 )
 
