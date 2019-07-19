@@ -19,7 +19,7 @@ type Ticker struct {
 }
 
 type ticker struct {
-	Name	string
+	Name    string
 	High    string
 	Low     string
 	volumes map[string]string
@@ -126,8 +126,6 @@ func (tkr *ticker) UnmarshalJSON(b []byte) (err error) {
 
 	return nil
 }
-
-
 
 // func (tkr *Ticker) ToJson() (err error) {
 

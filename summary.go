@@ -7,15 +7,9 @@ import (
 )
 
 type Summary struct {
-	Tickers map[string]*Ticker
+	Tickers   map[string]*Ticker
 	Prices24h map[string]float64
-	Prices7d map[string]float64
-}
-
-type summary struct {
-	tickers map[string]*ticker	
-	prices24h map[string]interface{}	`json:"prices_24h"`
-	prices7d map[string]interface{}	`json:"prices_7d"`
+	Prices7d  map[string]float64
 }
 
 func (sum *Summary) UnmarshalJSON(b []byte) (err error) {
@@ -30,7 +24,7 @@ func (sum *Summary) UnmarshalJSON(b []byte) (err error) {
 	prices24h := make(map[string]float64, len(kv[fieldNamePrices24h]))
 	prices7d := make(map[string]float64, len(kv[fieldNamePrices7d]))
 
-	for k, v  := range kv {
+	for k, v := range kv {
 		switch k {
 		case fieldNameTickers:
 			tickers, err = mapStringToTickers(v)
@@ -65,8 +59,8 @@ func mapStringToTickers(tickerInterface map[string]interface{}) (sum map[string]
 	return sum, nil
 }
 
-func mapInterfaceToTicker(pairName string,tkrInterface interface{}) (tkr *Ticker, err error) {
-	
+func mapInterfaceToTicker(pairName string, tkrInterface interface{}) (tkr *Ticker, err error) {
+
 	b, err := json.Marshal(tkrInterface)
 	if err != nil {
 		return nil, err
@@ -80,7 +74,7 @@ func mapInterfaceToTicker(pairName string,tkrInterface interface{}) (tkr *Ticker
 
 	var tkrString ticker
 	for k, v := range kv {
-		k  = strings.ToLower(k)
+		k = strings.ToLower(k)
 
 		valStr, ok := v.(string)
 		if !ok {
@@ -119,6 +113,3 @@ func mapInterfaceToTicker(pairName string,tkrInterface interface{}) (tkr *Ticker
 	}
 	return tkr, nil
 }
-
-
-
