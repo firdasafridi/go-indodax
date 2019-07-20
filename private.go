@@ -103,12 +103,12 @@ func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err er
 }
 
 func (cl *Client) TradeHitory(
-	pairName string, 
+	pairName string,
 	count, startTradeID, endTradeID int64,
 	sortOrder string,
 	sinceTime *time.Time,
 	endTime *time.Time,
-	) (openOrders []TradeHistory, err error) {
+) (openOrders []TradeHistory, err error) {
 	if pairName == "" {
 		return nil, ErrInvalidPairName
 	}
@@ -159,4 +159,42 @@ func (cl *Client) TradeHitory(
 	printDebug(respTradeHistory)
 
 	return respTradeHistory.Return.Trades, nil
+}
+
+func (cl *Client) OrderHistory(
+	pairName string,
+	count, from int64,
+) (openOrders []OrderHistory, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+
+	params := url.Values{}
+	params.Set("pair", pairName)
+
+	if count > 0 {
+		params.Set("count", strconv.FormatInt(count, 10))
+	}
+	if from > 0 {
+		params.Set("from", strconv.FormatInt(from, 10))
+	}
+
+	respBody, err := cl.curlPrivate(apiViewOrderHistory, params)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respOrderHistory := &respOrderHistory{}
+
+	err = json.Unmarshal(respBody, respOrderHistory)
+	if err != nil {
+		err = fmt.Errorf("OpenOrders: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respOrderHistory)
+
+	return respOrderHistory.Return.Orders, nil
 }
