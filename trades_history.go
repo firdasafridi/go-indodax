@@ -8,29 +8,29 @@ import (
 )
 
 type respTradeHistory struct {
-	Success 	int
-	Return 		*respTrade
+	Success int
+	Return  *respTrade
 }
 
 type respTrade struct {
-	Trades	[]TradeHistory
+	Trades []TradeHistory
 }
 
 type TradeHistory struct {
-	TradeID		int64
-	OrderID		int64
-	Type		string
-	AssetName	string
-	Amount		float64
-	Price		float64
-	Fee			float64
-	TradeTime	time.Time
+	TradeID   int64
+	OrderID   int64
+	Type      string
+	AssetName string
+	Amount    float64
+	Price     float64
+	Fee       float64
+	TradeTime time.Time
 }
 
 func (tradeHistory *TradeHistory) UnmarshalJSON(b []byte) (err error) {
 	var kv map[string]interface{}
 
-	err = json.Unmarshal(b, &kv) 
+	err = json.Unmarshal(b, &kv)
 	if err != nil {
 		return err
 	}
@@ -49,15 +49,15 @@ func (tradeHistory *TradeHistory) UnmarshalJSON(b []byte) (err error) {
 				return err
 			}
 			tradeHistory.TradeTime = time.Unix(ts, 0)
-		case fieldNamePrice: 
+		case fieldNamePrice:
 			tradeHistory.Price, err = strconv.ParseFloat(v.(string), 64)
-		case fieldNameFee: 
+		case fieldNameFee:
 			tradeHistory.Fee, err = strconv.ParseFloat(v.(string), 64)
-		default: 
+		default:
 			tradeHistory.Amount, err = strconv.ParseFloat(v.(string), 64)
 			tradeHistory.AssetName = k
 		}
-	
+
 		if err != nil {
 			return err
 		}

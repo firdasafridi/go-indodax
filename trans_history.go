@@ -14,27 +14,27 @@ type respTransHistory struct {
 
 type TransHistory struct {
 	Withdraw map[string][]TransWithdraw
-	Deposit map[string][]TransDeposit
+	Deposit  map[string][]TransDeposit
 }
 
 type TransWithdraw struct {
-	Status		string
-	Type		string
-	Amount		float64
-	Fee			float64
-	SubmitTime	time.Time
-	SuccessTime	time.Time
-	ID			int64
+	Status      string
+	Type        string
+	Amount      float64
+	Fee         float64
+	SubmitTime  time.Time
+	SuccessTime time.Time
+	ID          int64
 }
 
 type TransDeposit struct {
-	Status		string
-	Type		string
-	Amount		float64
-	Fee			float64
-	SubmitTime	time.Time
-	SuccessTime	time.Time	
-	ID			int64
+	Status      string
+	Type        string
+	Amount      float64
+	Fee         float64
+	SubmitTime  time.Time
+	SuccessTime time.Time
+	ID          int64
 }
 
 func (transWithdraw *TransWithdraw) UnmarshalJSON(b []byte) (err error) {
@@ -54,7 +54,7 @@ func (transWithdraw *TransWithdraw) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameType:
 			transWithdraw.Type = v.(string)
 		case fieldNameFee:
-			fee := v.(string) 
+			fee := v.(string)
 			transWithdraw.Fee, err = strconv.ParseFloat(fee, 64)
 		case fieldNameSubmitTime:
 			ts, err := strconv.ParseInt(v.(string), 10, 64)
@@ -71,7 +71,7 @@ func (transWithdraw *TransWithdraw) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameWithdrawID:
 			transWithdraw.ID, err = strconv.ParseInt(v.(string), 10, 64)
 		default:
-			amount := v.(string) 
+			amount := v.(string)
 			transWithdraw.Amount, err = strconv.ParseFloat(amount, 64)
 		}
 		if err != nil {
@@ -80,8 +80,6 @@ func (transWithdraw *TransWithdraw) UnmarshalJSON(b []byte) (err error) {
 	}
 	return nil
 }
-
-
 
 func (transDeposit *TransDeposit) UnmarshalJSON(b []byte) (err error) {
 	var kv map[string]interface{}
@@ -100,7 +98,7 @@ func (transDeposit *TransDeposit) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameType:
 			transDeposit.Type = v.(string)
 		case fieldNameFee:
-			fee := v.(string) 
+			fee := v.(string)
 			transDeposit.Fee, err = strconv.ParseFloat(fee, 64)
 		case fieldNameSubmitTime:
 			ts, err := strconv.ParseInt(v.(string), 10, 64)
@@ -117,7 +115,7 @@ func (transDeposit *TransDeposit) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameDepositID:
 			transDeposit.ID, err = strconv.ParseInt(v.(string), 10, 64)
 		case fieldNameAmount:
-			amount := v.(string) 
+			amount := v.(string)
 			transDeposit.Amount, err = strconv.ParseFloat(amount, 64)
 		}
 		if err != nil {
@@ -126,4 +124,3 @@ func (transDeposit *TransDeposit) UnmarshalJSON(b []byte) (err error) {
 	}
 	return nil
 }
-

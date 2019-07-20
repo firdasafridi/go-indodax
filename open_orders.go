@@ -8,19 +8,18 @@ import (
 )
 
 type OpenOrders struct {
-	ID			 int64
-	SubmitTime	 time.Time
-	Price		 float64
-	OrderAmount	 float64
+	ID           int64
+	SubmitTime   time.Time
+	Price        float64
+	OrderAmount  float64
 	RemainAmount float64
-	Type		 string
-	AssetName	 string
+	Type         string
+	AssetName    string
 }
-
 
 type responseAllOpenOrders struct {
 	Success int
-	Return respAllOrder
+	Return  respAllOrder
 }
 
 type respAllOrder struct {
@@ -29,7 +28,7 @@ type respAllOrder struct {
 
 type responseOpenOrders struct {
 	Success int
-	Return respOrder
+	Return  respOrder
 }
 
 type respOrder struct {
@@ -59,11 +58,11 @@ func (openOrders *OpenOrders) UnmarshalJSON(b []byte) (err error) {
 			}
 			openOrders.SubmitTime = time.Unix(ts, 0)
 		case fieldNamePrice:
-			price := v.(string) 
+			price := v.(string)
 			openOrders.Price, err = strconv.ParseFloat(price, 64)
-		default :
+		default:
 			keyName := strings.Split(k, "_")
-			if len(keyName)  < 2 {
+			if len(keyName) < 2 {
 				continue
 			}
 
