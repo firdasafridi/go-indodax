@@ -8,6 +8,9 @@ import (
 	"time"
 )
 
+//
+// List Trade containt all match order from user
+//
 type ListTrade struct {
 	ID     int64
 	Type   string

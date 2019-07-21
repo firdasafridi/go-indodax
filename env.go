@@ -5,7 +5,7 @@ import (
 )
 
 //
-// environment contains values that gathered from external
+// environment contains default and dynamics values that gathered from external
 // resources, for example system environment variables.
 //
 type environment struct {

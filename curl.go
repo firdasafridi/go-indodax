@@ -11,6 +11,11 @@ import (
 	"strings"
 )
 
+//
+// callPublic call public API with specific method and parameters.
+// On success it will return response body.
+// On fail it will return an empty body with an error.
+//
 func (cl *Client) curlPublic(urlPath string) (body []byte, err error) {
 	req := &http.Request{
 		Method: http.MethodGet,
@@ -42,6 +47,11 @@ func (cl *Client) curlPublic(urlPath string) (body []byte, err error) {
 	return body, nil
 }
 
+//
+// callPrivate call private API with specific method and parameters.
+// On success it will return response body.
+// On fail it will return an empty body with an error.
+//
 func (cl *Client) curlPrivate(method string, params url.Values) (
 	body []byte, err error,
 ) {
@@ -66,6 +76,11 @@ func (cl *Client) curlPrivate(method string, params url.Values) (
 	return body, nil
 }
 
+//
+// newPrivateRequest is method to generate authentication for private API.
+// On success it will return http request.
+// On fail it will return an error.
+//
 func (cl *Client) newPrivateRequest(apiMethod string, params url.Values) (
 	req *http.Request, err error,
 ) {
