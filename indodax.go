@@ -60,6 +60,9 @@ const (
 	fieldNameTradeID        = "trade_id"
 	fieldNameOrder          = "order"
 	fieldNamePairName       = "pair"
+	fieldNameReceive		= "receive"
+	fieldNameSpend			= "spend"
+	fieldNameSold			= "sold"
 )
 
 var (
@@ -76,6 +79,12 @@ var (
 	ErrInvalidPairName = fmt.Errorf("invalid or empty pair name")
 
 	ErrInvalidOrderID = fmt.Errorf("Empty order ID")
+
+	ErrInvalidPrice = fmt.Errorf("Empty price")
+
+	ErrInvalidAmount = fmt.Errorf("Empty amount")
+
+	ErrInvalidAssetName = fmt.Errorf("Empty asset name")
 )
 
 const (
