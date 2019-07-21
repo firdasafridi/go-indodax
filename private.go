@@ -233,3 +233,61 @@ func (cl *Client) GetOrder(
 
 	return respGetOrders.Return.Order, nil
 }
+
+func (cl *Client) CancelOrderBuy(
+	pairName string,
+	orderId int64,
+) (cancelOrder *CancelOrder, err error) {
+	cancelOrder, err = cl.cancelOrder("buy", pairName, orderId)
+	if err != nil {
+		return nil, err
+	}
+	return cancelOrder, nil
+}
+
+func (cl *Client) CancelOrderSell(
+	pairName string,
+	orderId int64,
+) (cancelOrder *CancelOrder, err error) {
+	cancelOrder, err = cl.cancelOrder("sell", pairName, orderId)
+	if err != nil {
+		return nil, err
+	}
+	return cancelOrder, nil
+}
+
+func (cl *Client) cancelOrder(
+	method, pairName string,
+	orderId int64,
+) (cancelOrder *CancelOrder, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+	if orderId == 0 {
+		return nil, ErrInvalidOrderID
+	}
+
+	params := url.Values{}
+	params.Set("pair", pairName)
+	params.Set("type", method)
+	params.Set("order_id", strconv.FormatInt(orderId, 10))
+
+	respBody, err := cl.curlPrivate(apiTradeCancelOrder, params)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respCancelOrder := &respCancelOrder{}
+
+	err = json.Unmarshal(respBody, respCancelOrder)
+	if err != nil {
+		err = fmt.Errorf("GetOrder: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respCancelOrder)
+
+	return respCancelOrder.Return, nil
+}
