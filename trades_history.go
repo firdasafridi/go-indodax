@@ -9,10 +9,10 @@ import (
 
 type respTradeHistory struct {
 	Success int
-	Return  *respTrade
+	Return  *respTradeHist
 }
 
-type respTrade struct {
+type respTradeHist struct {
 	Trades []TradeHistory
 }
 
