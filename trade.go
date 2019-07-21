@@ -3,8 +3,8 @@ package indodax
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type respTrade struct {
