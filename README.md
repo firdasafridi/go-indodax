@@ -1,7 +1,7 @@
 # GO-Indodax - A Library trading platform Indodax using Go Language
 - [Description](#description)
 - [Features](#features)
-- [Documentation](#documentation)
+- [Trade API Documentation](https://indodax.com/downloads/BITCOINCOID-API-DOCUMENTATION.pdf)
 - [godoc](https://godoc.org/github.com/firdasafridi/go-indodax)
 - [Example](#example)
 
