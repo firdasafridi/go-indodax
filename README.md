@@ -6,7 +6,7 @@
 - [Example](#example)
 
 ## Description
-This is unofficial library golang for Indodax trading platform.
+This is unofficial library golang for Indodax trading platform. 
 
 ## Features
 
