@@ -291,3 +291,90 @@ func (cl *Client) cancelOrder(
 
 	return respCancelOrder.Return, nil
 }
+
+func (cl *Client) TradeBuy(
+	pairName string,
+	price, amount float64,
+) (trade *Trade, err error) {
+
+	keyName := strings.Split(pairName, "_")
+	if len(keyName) < 2 {
+		return nil, ErrInvalidPairName
+	}
+	assetName := keyName[1]
+	trade, err = cl.trade(
+		"buy", pairName, assetName,
+		price, amount,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return trade, nil
+}
+
+func (cl *Client) TradeSell(
+	pairName string,
+	price, amount float64,
+) (trade *Trade, err error) {
+
+	keyName := strings.Split(pairName, "_")
+	if len(keyName) < 2 {
+		return nil, ErrInvalidPairName
+	}
+	assetName := keyName[0]
+	trade, err = cl.trade(
+		"sell", pairName, assetName,
+		price, amount,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return trade, nil
+}
+
+func (cl *Client) trade(
+	method, pairName, assetName string,
+	price, amount float64,
+) (trade *Trade, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+	if assetName == "" {
+		return nil, ErrInvalidAssetName
+	}
+	if price == 0 {
+		return nil, ErrInvalidPrice
+	}
+	if amount == 0 {
+		return nil, ErrInvalidAmount
+	}
+
+	params := url.Values{}
+	params.Set("pair", pairName)
+	params.Set("type", method)
+	params.Set("price", fmt.Sprintf("%.8f", price))
+	params.Set(assetName, fmt.Sprintf("%.8f", amount))
+
+	respBody, err := cl.curlPrivate(apiTrade, params)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respTrade := &respTrade{}
+
+	err = json.Unmarshal(respBody, respTrade)
+	if err != nil {
+		err = fmt.Errorf("trade: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respTrade)
+
+	return respTrade.Return, nil
+}
