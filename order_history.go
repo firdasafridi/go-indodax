@@ -10,6 +10,7 @@ import (
 type respOrderHistory struct {
 	Success int
 	Return  *respOrders
+	Message string
 }
 
 type respOrders struct {

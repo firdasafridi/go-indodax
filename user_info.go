@@ -11,6 +11,7 @@ import (
 type respGetInfo struct {
 	Success int
 	Return  *UserInfo
+	Message string
 }
 
 type UserInfo struct {

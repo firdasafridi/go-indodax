@@ -10,6 +10,7 @@ import (
 type respTradeHistory struct {
 	Success int
 	Return  *respTradeHist
+	Message string
 }
 
 type respTradeHist struct {

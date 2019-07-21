@@ -24,6 +24,9 @@ func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
 		err = fmt.Errorf("GetInfo: " + err.Error())
 		return nil, err
 	}
+	if respGetInfo.Success != 1 {
+		return nil, fmt.Errorf("GetInfo: " + respGetInfo.Message)
+	}
 
 	cl.Info = respGetInfo.Return
 
@@ -46,6 +49,9 @@ func (cl *Client) TransHistory() (transHistory *TransHistory, err error) {
 	if err != nil {
 		err = fmt.Errorf("TransHistory: " + err.Error())
 		return nil, err
+	}
+	if respTransHistory.Success != 1 {
+		return nil, fmt.Errorf("TransHistory: " + respTransHistory.Message)
 	}
 
 	printDebug(respTransHistory)
@@ -75,6 +81,9 @@ func (cl *Client) OpenOrders(pairName string) (openOrders []OpenOrders, err erro
 		err = fmt.Errorf("OpenOrders: " + err.Error())
 		return nil, err
 	}
+	if respOpenOrders.Success != 1 {
+		return nil, fmt.Errorf("OpenOrders: " + respOpenOrders.Message)
+	}
 
 	printDebug(respOpenOrders)
 
@@ -95,6 +104,9 @@ func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err er
 	if err != nil {
 		err = fmt.Errorf("AllOpenOrders: " + err.Error())
 		return nil, err
+	}
+	if respOpenOrders.Success != 1 {
+		return nil, fmt.Errorf("AllOpenOrders: " + respOpenOrders.Message)
 	}
 
 	printDebug(respOpenOrders)
@@ -155,6 +167,9 @@ func (cl *Client) TradeHitory(
 		err = fmt.Errorf("TradeHitory: " + err.Error())
 		return nil, err
 	}
+	if respTradeHistory.Success != 1 {
+		return nil, fmt.Errorf("TradeHitory: " + respTradeHistory.Message)
+	}
 
 	printDebug(respTradeHistory)
 
@@ -193,6 +208,9 @@ func (cl *Client) OrderHistory(
 		err = fmt.Errorf("OrderHistory: " + err.Error())
 		return nil, err
 	}
+	if respOrderHistory.Success != 1 {
+		return nil, fmt.Errorf("OrderHistory: " + respOrderHistory.Message)
+	}
 
 	printDebug(respOrderHistory)
 
@@ -227,6 +245,9 @@ func (cl *Client) GetOrder(
 	if err != nil {
 		err = fmt.Errorf("GetOrder: " + err.Error())
 		return nil, err
+	}
+	if respGetOrders.Success != 1 {
+		return nil, fmt.Errorf("GetOrder: " + respGetOrders.Message)
 	}
 
 	printDebug(respGetOrders)
@@ -283,8 +304,11 @@ func (cl *Client) cancelOrder(
 
 	err = json.Unmarshal(respBody, respCancelOrder)
 	if err != nil {
-		err = fmt.Errorf("GetOrder: " + err.Error())
+		err = fmt.Errorf("CancelOrder: " + err.Error())
 		return nil, err
+	}
+	if respCancelOrder.Success != 1 {
+		return nil, fmt.Errorf("CancelOrder: " + respCancelOrder.Message)
 	}
 
 	printDebug(respCancelOrder)
@@ -372,6 +396,9 @@ func (cl *Client) trade(
 	if err != nil {
 		err = fmt.Errorf("trade: " + err.Error())
 		return nil, err
+	}
+	if respTrade.Success != 1 {
+		return nil, fmt.Errorf("Trade: " + respTrade.Message)
 	}
 
 	printDebug(respTrade)

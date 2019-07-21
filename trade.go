@@ -3,13 +3,14 @@ package indodax
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type respTrade struct {
 	Success int
 	Return  *Trade
+	Message string
 }
 
 type Trade struct {

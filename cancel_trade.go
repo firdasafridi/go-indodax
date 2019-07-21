@@ -10,6 +10,7 @@ import (
 type respCancelOrder struct {
 	Success int
 	Return  *CancelOrder
+	Message string
 }
 
 type CancelOrder struct {

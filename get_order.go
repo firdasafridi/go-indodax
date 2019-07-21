@@ -10,6 +10,7 @@ import (
 type respGetOrders struct {
 	Success int
 	Return  respGetOrder
+	Message string
 }
 
 type respGetOrder struct {

@@ -20,6 +20,7 @@ type OpenOrders struct {
 type responseAllOpenOrders struct {
 	Success int
 	Return  respAllOrder
+	Message string
 }
 
 type respAllOrder struct {
@@ -29,6 +30,7 @@ type respAllOrder struct {
 type responseOpenOrders struct {
 	Success int
 	Return  respOrder
+	Message string
 }
 
 type respOrder struct {

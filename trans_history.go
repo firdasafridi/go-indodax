@@ -10,6 +10,7 @@ import (
 type respTransHistory struct {
 	Success int
 	Return  *TransHistory
+	Message string
 }
 
 type TransHistory struct {
