@@ -59,6 +59,7 @@ const (
 	fieldNameRemain         = "remain"
 	fieldNameTradeID        = "trade_id"
 	fieldNameOrder          = "order"
+	fieldNamePairName       = "pair"
 )
 
 var (
@@ -73,6 +74,8 @@ var (
 	// ErrInvalidPairName define an error if user call API with empty,
 	// invalid or unknown pair's name.
 	ErrInvalidPairName = fmt.Errorf("invalid or empty pair name")
+
+	ErrInvalidOrderID = fmt.Errorf("Empty order ID")
 )
 
 const (
