@@ -60,9 +60,9 @@ const (
 	fieldNameTradeID        = "trade_id"
 	fieldNameOrder          = "order"
 	fieldNamePairName       = "pair"
-	fieldNameReceive        = "receive"
-	fieldNameSpend          = "spend"
-	fieldNameSold           = "sold"
+	fieldNameReceive		= "receive"
+	fieldNameSpend			= "spend"
+	fieldNameSold			= "sold"
 )
 
 var (

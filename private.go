@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+
 //
 // This method gives user balances, user wallet, user id, username, profile picture and server's timestamp.
 //
