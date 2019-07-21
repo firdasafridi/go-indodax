@@ -8,6 +8,9 @@ import (
 	"github.com/firdasafridi/go-indodax"
 )
 
+//
+// Example trade buy
+//
 func ExampleClient_TradeBuy() {
 	cl, err := indodax.NewClient(
 		"Key",
