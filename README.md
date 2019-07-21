@@ -2,7 +2,7 @@
 - [Description](#description)
 - [Features](#features)
 - [Documentation](#documentation)
-- [godoc](#godoc)
+- [godoc](https://godoc.org/github.com/firdasafridi/go-indodax)
 - [Example](#example)
 
 ## Description
