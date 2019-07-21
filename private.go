@@ -93,7 +93,7 @@ func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err er
 
 	err = json.Unmarshal(respBody, respOpenOrders)
 	if err != nil {
-		err = fmt.Errorf("OpenOrders: " + err.Error())
+		err = fmt.Errorf("AllOpenOrders: " + err.Error())
 		return nil, err
 	}
 
@@ -152,7 +152,7 @@ func (cl *Client) TradeHitory(
 
 	err = json.Unmarshal(respBody, respTradeHistory)
 	if err != nil {
-		err = fmt.Errorf("OpenOrders: " + err.Error())
+		err = fmt.Errorf("TradeHitory: " + err.Error())
 		return nil, err
 	}
 
@@ -190,11 +190,46 @@ func (cl *Client) OrderHistory(
 
 	err = json.Unmarshal(respBody, respOrderHistory)
 	if err != nil {
-		err = fmt.Errorf("OpenOrders: " + err.Error())
+		err = fmt.Errorf("OrderHistory: " + err.Error())
 		return nil, err
 	}
 
 	printDebug(respOrderHistory)
 
 	return respOrderHistory.Return.Orders, nil
+}
+
+func (cl *Client) GetOrder(
+	pairName string,
+	orderId int64,
+) (getOrder *GetOrder, err error) {
+	if pairName == "" {
+		return nil, ErrInvalidPairName
+	}
+
+	params := url.Values{}
+	params.Set("pair", pairName)
+
+	if orderId > 0 {
+		params.Set("order_id", strconv.FormatInt(orderId, 10))
+	}
+
+	respBody, err := cl.curlPrivate(apiViewGetOrder, params)
+	if err != nil {
+		return nil, err
+	}
+
+	printDebug(string(respBody))
+
+	respGetOrders := &respGetOrders{}
+
+	err = json.Unmarshal(respBody, respGetOrders)
+	if err != nil {
+		err = fmt.Errorf("GetOrder: " + err.Error())
+		return nil, err
+	}
+
+	printDebug(respGetOrders)
+
+	return respGetOrders.Return.Order, nil
 }
