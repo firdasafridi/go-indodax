@@ -7,6 +7,9 @@ import (
 	"time"
 )
 
+//
+// Open Orders containt all order book from user
+//
 type OpenOrders struct {
 	ID           int64
 	SubmitTime   time.Time
@@ -20,6 +23,7 @@ type OpenOrders struct {
 type responseAllOpenOrders struct {
 	Success int
 	Return  respAllOrder
+	Message string
 }
 
 type respAllOrder struct {
@@ -29,6 +33,7 @@ type respAllOrder struct {
 type responseOpenOrders struct {
 	Success int
 	Return  respOrder
+	Message string
 }
 
 type respOrder struct {

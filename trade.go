@@ -10,8 +10,12 @@ import (
 type respTrade struct {
 	Success int
 	Return  *Trade
+	Message string
 }
 
+//
+// Trade containt status of order placed by user like recive asset, spend asset, sold asset, remain asset, fee, order id placed, and last balance after trade.
+//
 type Trade struct {
 	Receive          float64
 	ReceiveAssetName string

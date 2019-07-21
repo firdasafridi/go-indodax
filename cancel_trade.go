@@ -10,8 +10,13 @@ import (
 type respCancelOrder struct {
 	Success int
 	Return  *CancelOrder
+	Message string
 }
 
+//
+// CancelOrder contains a success response from calling a "cancelOrder"
+// method.
+//
 type CancelOrder struct {
 	OrderID  int64
 	Type     string

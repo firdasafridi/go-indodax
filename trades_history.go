@@ -10,12 +10,16 @@ import (
 type respTradeHistory struct {
 	Success int
 	Return  *respTradeHist
+	Message string
 }
 
 type respTradeHist struct {
 	Trades []TradeHistory
 }
 
+//
+// Trade History containt trade id, order id, type of trade match(buy/sell), AssetName, amount, price, and fee.
+//
 type TradeHistory struct {
 	TradeID   int64
 	OrderID   int64

@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+
+//
+// This method gives user balances, user wallet, user id, username, profile picture and server's timestamp.
+//
 func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
 	respBody, err := cl.curlPrivate(apiViewGetInfo, nil)
 	if err != nil {
@@ -24,6 +28,9 @@ func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
 		err = fmt.Errorf("GetInfo: " + err.Error())
 		return nil, err
 	}
+	if respGetInfo.Success != 1 {
+		return nil, fmt.Errorf("GetInfo: " + respGetInfo.Message)
+	}
 
 	cl.Info = respGetInfo.Return
 
@@ -32,6 +39,9 @@ func (cl *Client) GetInfo() (usrInfo *UserInfo, err error) {
 	return cl.Info, nil
 }
 
+//
+// This method gives list of deposits and withdrawals of all currencies
+//
 func (cl *Client) TransHistory() (transHistory *TransHistory, err error) {
 	respBody, err := cl.curlPrivate(apiViewTransactionHistory, nil)
 	if err != nil {
@@ -47,12 +57,18 @@ func (cl *Client) TransHistory() (transHistory *TransHistory, err error) {
 		err = fmt.Errorf("TransHistory: " + err.Error())
 		return nil, err
 	}
+	if respTransHistory.Success != 1 {
+		return nil, fmt.Errorf("TransHistory: " + respTransHistory.Message)
+	}
 
 	printDebug(respTransHistory)
 
 	return respTransHistory.Return, nil
 }
 
+//
+// This method gives the list of current open orders (buy and sell) by pair.
+//
 func (cl *Client) OpenOrders(pairName string) (openOrders []OpenOrders, err error) {
 	if pairName == "" {
 		return nil, ErrInvalidPairName
@@ -75,12 +91,18 @@ func (cl *Client) OpenOrders(pairName string) (openOrders []OpenOrders, err erro
 		err = fmt.Errorf("OpenOrders: " + err.Error())
 		return nil, err
 	}
+	if respOpenOrders.Success != 1 {
+		return nil, fmt.Errorf("OpenOrders: " + respOpenOrders.Message)
+	}
 
 	printDebug(respOpenOrders)
 
 	return respOpenOrders.Return.Orders, nil
 }
 
+//
+// This method gives the list of current open orders (buy and sell) all pair.
+//
 func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err error) {
 	respBody, err := cl.curlPrivate(apiViewOpenOrders, nil)
 	if err != nil {
@@ -96,12 +118,18 @@ func (cl *Client) AllOpenOrders() (allOpenOrders map[string][]OpenOrders, err er
 		err = fmt.Errorf("AllOpenOrders: " + err.Error())
 		return nil, err
 	}
+	if respOpenOrders.Success != 1 {
+		return nil, fmt.Errorf("AllOpenOrders: " + respOpenOrders.Message)
+	}
 
 	printDebug(respOpenOrders)
 
 	return respOpenOrders.Return.Orders, nil
 }
 
+//
+// This method gives information about transaction in buying and selling history
+//
 func (cl *Client) TradeHitory(
 	pairName string,
 	count, startTradeID, endTradeID int64,
@@ -155,12 +183,18 @@ func (cl *Client) TradeHitory(
 		err = fmt.Errorf("TradeHitory: " + err.Error())
 		return nil, err
 	}
+	if respTradeHistory.Success != 1 {
+		return nil, fmt.Errorf("TradeHitory: " + respTradeHistory.Message)
+	}
 
 	printDebug(respTradeHistory)
 
 	return respTradeHistory.Return.Trades, nil
 }
 
+//
+// This method gives the list of order history (buy and sell).
+//
 func (cl *Client) OrderHistory(
 	pairName string,
 	count, from int64,
@@ -193,12 +227,18 @@ func (cl *Client) OrderHistory(
 		err = fmt.Errorf("OrderHistory: " + err.Error())
 		return nil, err
 	}
+	if respOrderHistory.Success != 1 {
+		return nil, fmt.Errorf("OrderHistory: " + respOrderHistory.Message)
+	}
 
 	printDebug(respOrderHistory)
 
 	return respOrderHistory.Return.Orders, nil
 }
 
+//
+// Use getOrder to get specific order details.
+//
 func (cl *Client) GetOrder(
 	pairName string,
 	orderId int64,
@@ -228,12 +268,18 @@ func (cl *Client) GetOrder(
 		err = fmt.Errorf("GetOrder: " + err.Error())
 		return nil, err
 	}
+	if respGetOrders.Success != 1 {
+		return nil, fmt.Errorf("GetOrder: " + respGetOrders.Message)
+	}
 
 	printDebug(respGetOrders)
 
 	return respGetOrders.Return.Order, nil
 }
 
+//
+// This method is for canceling an existing open buy order.
+//
 func (cl *Client) CancelOrderBuy(
 	pairName string,
 	orderId int64,
@@ -245,6 +291,9 @@ func (cl *Client) CancelOrderBuy(
 	return cancelOrder, nil
 }
 
+//
+// This method is for canceling an existing open sell order.
+//
 func (cl *Client) CancelOrderSell(
 	pairName string,
 	orderId int64,
@@ -256,6 +305,9 @@ func (cl *Client) CancelOrderSell(
 	return cancelOrder, nil
 }
 
+//
+// This method is for canceling an existing open order.
+//
 func (cl *Client) cancelOrder(
 	method, pairName string,
 	orderId int64,
@@ -283,8 +335,11 @@ func (cl *Client) cancelOrder(
 
 	err = json.Unmarshal(respBody, respCancelOrder)
 	if err != nil {
-		err = fmt.Errorf("GetOrder: " + err.Error())
+		err = fmt.Errorf("CancelOrder: " + err.Error())
 		return nil, err
+	}
+	if respCancelOrder.Success != 1 {
+		return nil, fmt.Errorf("CancelOrder: " + respCancelOrder.Message)
 	}
 
 	printDebug(respCancelOrder)
@@ -292,6 +347,9 @@ func (cl *Client) cancelOrder(
 	return respCancelOrder.Return, nil
 }
 
+//
+// This method is for opening a new buy order
+//
 func (cl *Client) TradeBuy(
 	pairName string,
 	price, amount float64,
@@ -314,6 +372,9 @@ func (cl *Client) TradeBuy(
 	return trade, nil
 }
 
+//
+// This method is for opening a new sell order
+//
 func (cl *Client) TradeSell(
 	pairName string,
 	price, amount float64,
@@ -336,6 +397,10 @@ func (cl *Client) TradeSell(
 	return trade, nil
 }
 
+
+//
+// This method is for opening a new order
+//
 func (cl *Client) trade(
 	method, pairName, assetName string,
 	price, amount float64,
@@ -372,6 +437,9 @@ func (cl *Client) trade(
 	if err != nil {
 		err = fmt.Errorf("trade: " + err.Error())
 		return nil, err
+	}
+	if respTrade.Success != 1 {
+		return nil, fmt.Errorf("Trade: " + respTrade.Message)
 	}
 
 	printDebug(respTrade)

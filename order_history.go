@@ -10,12 +10,16 @@ import (
 type respOrderHistory struct {
 	Success int
 	Return  *respOrders
+	Message string
 }
 
 type respOrders struct {
 	Orders []OrderHistory
 }
 
+//
+// Order History containt all order book from user
+//
 type OrderHistory struct {
 	ID           int64
 	Type         string

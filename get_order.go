@@ -10,12 +10,16 @@ import (
 type respGetOrders struct {
 	Success int
 	Return  respGetOrder
+	Message string
 }
 
 type respGetOrder struct {
 	Order *GetOrder
 }
 
+//
+// Get Order containt a status from order placed of user
+//
 type GetOrder struct {
 	OrderID      int64
 	Price        float64

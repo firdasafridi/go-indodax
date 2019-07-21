@@ -10,8 +10,12 @@ import (
 type respTransHistory struct {
 	Success int
 	Return  *TransHistory
+	Message string
 }
 
+//
+// Transaction History containt list of Deposit and withdraw.
+//
 type TransHistory struct {
 	Withdraw map[string][]TransWithdraw
 	Deposit  map[string][]TransDeposit

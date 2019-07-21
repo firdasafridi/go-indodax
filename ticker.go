@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+//
+// Ticker containts High price 24h, Low price24h, Volume asset Volume Base, Last price, Open  buy, and Open Sell
+// 
 type Ticker struct {
 	PairName    string
 	High        float64
