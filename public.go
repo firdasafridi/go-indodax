@@ -56,7 +56,9 @@ func (cl *Client) GetOrderBook(pairName string) (orderBook *OrderBook, err error
 	return orderBook, nil
 }
 
-func (cl *Client) GetListTrades(pairName string) (listTrade []*Trade, err error) {
+func (cl *Client) GetListTrades(pairName string) (
+	listTrade []*ListTrade, err error,
+) {
 	if pairName == "" {
 		return nil, ErrInvalidPairName
 	}
