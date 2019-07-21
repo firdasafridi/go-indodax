@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-
 //
 // This method gives user balances, user wallet, user id, username, profile picture and server's timestamp.
 //
@@ -396,7 +395,6 @@ func (cl *Client) TradeSell(
 
 	return trade, nil
 }
-
 
 //
 // This method is for opening a new order
