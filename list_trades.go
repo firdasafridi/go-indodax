@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type Trade struct {
+type ListTrade struct {
 	ID     int64
 	Type   string
 	Date   time.Time
@@ -16,7 +16,7 @@ type Trade struct {
 	Price  float64
 }
 
-func (trade *Trade) UnmarshalJSON(b []byte) (err error) {
+func (listTrade *ListTrade) UnmarshalJSON(b []byte) (err error) {
 	var kv map[string]string
 
 	err = json.Unmarshal(b, &kv)
@@ -29,19 +29,19 @@ func (trade *Trade) UnmarshalJSON(b []byte) (err error) {
 
 		switch k {
 		case fieldNameTID:
-			trade.ID, err = strconv.ParseInt(v, 10, 64)
+			listTrade.ID, err = strconv.ParseInt(v, 10, 64)
 		case fieldNameType:
-			trade.Type = v
+			listTrade.Type = v
 		case fieldNameDate:
 			ts, err := strconv.ParseInt(v, 10, 64)
 			if err != nil {
 				return err
 			}
-			trade.Date = time.Unix(ts, 0)
+			listTrade.Date = time.Unix(ts, 0)
 		case fieldNameAmount:
-			trade.Amount, err = strconv.ParseFloat(v, 64)
+			listTrade.Amount, err = strconv.ParseFloat(v, 64)
 		case fieldNamePrice:
-			trade.Price, err = strconv.ParseFloat(v, 64)
+			listTrade.Price, err = strconv.ParseFloat(v, 64)
 		}
 
 		if err != nil {
