@@ -6,7 +6,9 @@
 - [Example](#example)
 
 ## Description
-This is unofficial library golang for Indodax trading platform. 
+Welcome to Indodax golang library. These library outline exchange functionality, market details, and APIs.
+
+APIs are separated into two categories: private and public. Private APIs require authentication and provide access to placing orders and other account information. Public APIs provide market data.
 
 ## Features
 
