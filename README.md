@@ -70,3 +70,6 @@ func main() {
     fmt.Printf("Ticker %v\n",ticker)
 }
 ```
+## Notes
+- For bug report you can reffer to [this](https://github.com/firdasafridi/go-indodax/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+- For feature request you can reffer to [this](https://github.com/firdasafridi/go-indodax/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
