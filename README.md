@@ -6,7 +6,9 @@
 - [Example](#example)
 
 ## Description
-This is unofficial library golang for Indodax trading platform. 
+Welcome to Indodax golang library. These library outline exchange functionality, market details, and APIs.
+
+APIs are separated into two categories: private and public. Private APIs require authentication and provide access to placing orders and other account information. Public APIs provide market data.
 
 ## Features
 
@@ -25,9 +27,17 @@ Private Endpoint
 - Withdraw (Comming Soon)
 
 ## Example
+To start use the library you can get the repository first:
+
+`go get github.com/firdasafridi/go-indodax`
 
 Public Endpoint 
 ``` go
+import (
+    "fmt"
+    "github.com/firdasafridi/go-indodax"
+)
+
 func main() {
     cl, err := indodax.NewClient(
 		"",
@@ -37,12 +47,17 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-    fmt.Println(ticker)
+    fmt.Printf("Ticker %v\n",ticker)
 }
 ```
 
 Private Endpoint 
 ```go
+import (
+    "fmt"
+    "github.com/firdasafridi/go-indodax"
+)
+
 func main() {
     cl, err := indodax.NewClient(
 		"key", 
@@ -52,6 +67,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	jsonToString(tradeBuy)
+    fmt.Printf("Ticker %v\n",ticker)
 }
 ```

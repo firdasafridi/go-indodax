@@ -9,7 +9,7 @@ import (
 )
 
 //
-// Example Trade Buy
+// Example trade buy
 //
 func ExampleClient_TradeBuy() {
 	cl, err := indodax.NewClient(
