@@ -67,7 +67,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-    fmt.Printf("Ticker %v\n",ticker)
+    fmt.Printf("TradeBuy %v\n",tradeBuy)
 }
 ```
 ## Notes
