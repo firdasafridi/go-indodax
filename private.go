@@ -334,11 +334,11 @@ func (cl *Client) cancelOrder(
 
 	err = json.Unmarshal(respBody, respCancelOrder)
 	if err != nil {
-		err = fmt.Errorf("CancelOrder: " + err.Error())
+		err = fmt.Errorf("CancelOrder Unmarshal: " + err.Error())
 		return nil, err
 	}
 	if respCancelOrder.Success != 1 {
-		return nil, fmt.Errorf("CancelOrder: " + respCancelOrder.Message)
+		return nil, fmt.Errorf("CancelOrder: " + respCancelOrder.Error)
 	}
 
 	printDebug(respCancelOrder)
@@ -437,7 +437,7 @@ func (cl *Client) trade(
 		return nil, err
 	}
 	if respTrade.Success != 1 {
-		return nil, fmt.Errorf("Trade: " + respTrade.Message)
+		return nil, fmt.Errorf("Trade: " + respTrade.Error)
 	}
 
 	printDebug(respTrade)

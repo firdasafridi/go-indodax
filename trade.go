@@ -11,6 +11,7 @@ type respTrade struct {
 	Success int
 	Return  *Trade
 	Message string
+	Error   string
 }
 
 //
@@ -45,7 +46,9 @@ func (trade *Trade) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameFee:
 			trade.Fee, err = strconv.ParseFloat(fmt.Sprintf("%v", v), 64)
 		case fieldNameOrderID:
-			trade.OrderID, err = strconv.ParseInt(fmt.Sprintf("%v", v), 10, 64)
+			orderIDFloat, err2 := strconv.ParseFloat(fmt.Sprintf("%f", v), 64)
+			err = err2
+			trade.OrderID = int64(orderIDFloat)
 		case fieldNameBalance:
 			trade.Balance, err = jsonToMapStringFloat64(v.(map[string]interface{}))
 		default:
