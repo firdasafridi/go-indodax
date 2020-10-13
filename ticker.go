@@ -104,7 +104,7 @@ func (tkr *ticker) UnmarshalJSON(b []byte) (err error) {
 			tkr.High = valStr
 		case fieldNameLow:
 			tkr.Low = valStr
-		case fieldNameAmount:
+		case fieldNameLast:
 			tkr.Last = valStr
 		case fieldNameBuy:
 			tkr.Buy = valStr

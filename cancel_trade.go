@@ -11,6 +11,7 @@ type respCancelOrder struct {
 	Success int
 	Return  *CancelOrder
 	Message string
+	Error   string
 }
 
 //
@@ -39,7 +40,9 @@ func (cancelOrder *CancelOrder) UnmarshalJSON(b []byte) (err error) {
 		case fieldNameBalance:
 			cancelOrder.Balance, err = jsonToMapStringFloat64(v.(map[string]interface{}))
 		case fieldNameOrderID:
-			cancelOrder.OrderID, err = strconv.ParseInt(fmt.Sprintf("%v", v), 10, 64)
+			orderIDFloat, err2 := strconv.ParseFloat(fmt.Sprintf("%f", v), 64)
+			err = err2
+			cancelOrder.OrderID = int64(orderIDFloat)
 		case fieldNameType:
 			cancelOrder.Type = v.(string)
 		case fieldNamePairName:

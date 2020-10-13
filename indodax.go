@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	// These are url to open data for public. It doesn't need an API key to call these methods. You can call
+	// UrlPublic is url to open data for public. It doesn't need an API key to call these methods. You can call
 	// simple GET request or open it directly from the browser.
 	UrlPublic = "https://indodax.com/api"
 
-	// To use Private API first you need to obtain your API credentials by logging into your indodax.com
+	// UrlPrivate : To use Private API first you need to obtain your API credentials by logging into your indodax.com
 	// account and open https://indodax.com/trade_api. These credentials contain "API Key" and "Secret
 	// Key". Please keep these credentials safe.
 	UrlPrivate = "https://indodax.com/tapi"
@@ -144,13 +144,13 @@ func jsonToMapStringString(in map[string]interface{}) (
 //
 // timestamp return current time in milliseconds as integer.
 //
-func timestamp() int32 {
-	return int32(time.Now().Unix())
+func makeTimestamp() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
 //
 // timestampAsString return current time in milliseconds as string.
 //
 func timestampAsString() string {
-	return fmt.Sprintf("%d", timestamp())
+	return fmt.Sprintf("%d", makeTimestamp())
 }

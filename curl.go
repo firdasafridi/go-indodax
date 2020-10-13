@@ -85,7 +85,7 @@ func (cl *Client) newPrivateRequest(apiMethod string, params url.Values) (
 	req *http.Request, err error,
 ) {
 	query := url.Values{
-		"nonce": []string{
+		"timestamp": []string{
 			timestampAsString(),
 		},
 		"method": []string{
