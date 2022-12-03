@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/buger/jsonparser"
 	"github.com/gorilla/websocket"
+	"sort"
 	"strconv"
 	"strings"
 	"sync/atomic"
@@ -21,16 +22,16 @@ var (
 	WebsocketKeepalive = false
 )
 
-type BaseQuoteVolumePrice struct {
+type OrderBookEntry struct {
 	BaseVolume  float64 `json:"base_volume"`
 	QuoteVolume float64 `json:"quote_volume"`
 	Price       float64 `json:"price"`
 }
 
 type OrderBookEvent struct {
-	Pair string                 `json:"pair"`
-	Ask  []BaseQuoteVolumePrice `json:"ask"`
-	Bid  []BaseQuoteVolumePrice `json:"bid"`
+	Pair string           `json:"pair"`
+	Ask  []OrderBookEntry `json:"ask"`
+	Bid  []OrderBookEntry `json:"bid"`
 }
 
 type WsOrderBookEventHandler func(event *OrderBookEvent)
@@ -151,25 +152,37 @@ func toOrderBookEvent(
 		case 0: // pair
 			e.Pair = string(bytes)
 		case 1: // ask
-			e.Ask, err = toBaseQuoteVolumePrices(bytes, baseVolume, quoteVolume, price)
+			e.Ask, err = toOrderBookEntries(bytes, baseVolume, quoteVolume, price, true)
 		case 2: // bid
-			e.Bid, err = toBaseQuoteVolumePrices(bytes, baseVolume, quoteVolume, price)
+			e.Bid, err = toOrderBookEntries(bytes, baseVolume, quoteVolume, price, false)
 		}
 	}, paths...)
 
 	return e, offset, err, true
 }
 
-func toBaseQuoteVolumePrices(
-	ba []byte, baseVolumeName, quoteVolumeName, price string,
-) (r []BaseQuoteVolumePrice, err error) {
+type orderBookEntryList []OrderBookEntry
+
+func (ol orderBookEntryList) Less(i, j int) bool {
+	return ol[i].Price < ol[j].Price
+}
+func (ol orderBookEntryList) Swap(i, j int) {
+	ol[i], ol[j] = ol[j], ol[i]
+}
+func (ol orderBookEntryList) Len() int {
+	return len(ol)
+}
+
+func toOrderBookEntries(
+	ba []byte, baseVolumeName, quoteVolumeName, price string, sortAsc bool,
+) (entries []OrderBookEntry, err error) {
 	paths := [][]string{
 		{baseVolumeName},
 		{quoteVolumeName},
 		{price},
 	}
 
-	r = make([]BaseQuoteVolumePrice, 0)
+	entries = make([]OrderBookEntry, 0)
 	hasError := false
 	_, err = jsonparser.ArrayEach(ba, func(ba []byte, _ jsonparser.ValueType, _ int, pErr error) {
 		hasError = hasError || pErr != nil
@@ -178,7 +191,7 @@ func toBaseQuoteVolumePrices(
 			return
 		}
 
-		bqvp := BaseQuoteVolumePrice{}
+		e := OrderBookEntry{}
 		jsonparser.EachKey(ba, func(idx int, ba []byte, _ jsonparser.ValueType, pErr error) {
 			hasError = hasError || pErr != nil
 			if hasError {
@@ -198,18 +211,24 @@ func toBaseQuoteVolumePrices(
 
 			switch idx {
 			case 0: // base
-				bqvp.BaseVolume = v
+				e.BaseVolume = v
 			case 1: // quote
-				bqvp.QuoteVolume = v
+				e.QuoteVolume = v
 			case 2: // price
-				bqvp.Price = v
+				e.Price = v
 			}
 		}, paths...)
 
-		r = append(r, bqvp)
+		entries = append(entries, e)
 	})
 
-	return r, err
+	if sortAsc {
+		sort.Sort(orderBookEntryList(entries))
+	} else {
+		sort.Sort(sort.Reverse(orderBookEntryList(entries)))
+	}
+
+	return entries, err
 }
 
 func firstError(fst, snd error) error {

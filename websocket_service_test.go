@@ -27,7 +27,7 @@ func TestWsOrderBookServe(t *testing.T) {
 		wg.Done()
 	}
 
-	doneC, stopC, err := WsOrderBookServe(OBS("ankr", "idr"), eventHandler, errHandler)
+	doneC, stopC, err := WsOrderBookServe(OBS("btc", "idr"), eventHandler, errHandler)
 	assert.NoError(t, err)
 
 	wg.Wait()
@@ -74,7 +74,7 @@ func Test_toOrderBookEvent(t *testing.T) {
 	}
 }
 
-func assertBQPS(t *testing.T, got BaseQuoteVolumePrice, wantBase, wantQuote, wantPrice string) {
+func assertBQPS(t *testing.T, got OrderBookEntry, wantBase, wantQuote, wantPrice string) {
 	assert.Equal(t, wantBase, fmt.Sprintf("%0.8f", got.BaseVolume), "base")
 	assert.Equal(t, wantQuote, fmt.Sprintf("%0.0f", got.QuoteVolume), "quote")
 	assert.Equal(t, wantPrice, fmt.Sprintf("%0.0f", got.Price), "price")
