@@ -64,17 +64,17 @@ func Test_toOrderBookEvent(t *testing.T) {
 	assert.Equal(t, 6563500, int(offset))
 
 	if assert.Len(t, e.Ask, 2) {
-		assertBQPS(t, e.Ask[0], "0.74041081", "195433655", "263953000")
-		assertBQPS(t, e.Ask[1], "0.00762000", "2011337", "263955000")
+		assertOrderBookEntry(t, e.Ask[0], "0.74041081", "195433655", "263953000")
+		assertOrderBookEntry(t, e.Ask[1], "0.00762000", "2011337", "263955000")
 	}
 
 	if assert.Len(t, e.Bid, 2) {
-		assertBQPS(t, e.Bid[0], "0.01769092", "4669554", "263952000")
-		assertBQPS(t, e.Bid[1], "0.00037693", "99490", "263949000")
+		assertOrderBookEntry(t, e.Bid[0], "0.01769092", "4669554", "263952000")
+		assertOrderBookEntry(t, e.Bid[1], "0.00037693", "99490", "263949000")
 	}
 }
 
-func assertBQPS(t *testing.T, got OrderBookEntry, wantBase, wantQuote, wantPrice string) {
+func assertOrderBookEntry(t *testing.T, got OrderBookEntry, wantBase, wantQuote, wantPrice string) {
 	assert.Equal(t, wantBase, fmt.Sprintf("%0.8f", got.BaseVolume), "base")
 	assert.Equal(t, wantQuote, fmt.Sprintf("%0.0f", got.QuoteVolume), "quote")
 	assert.Equal(t, wantPrice, fmt.Sprintf("%0.0f", got.Price), "price")

@@ -152,9 +152,9 @@ func toOrderBookEvent(
 		case 0: // pair
 			e.Pair = string(bytes)
 		case 1: // ask
-			e.Ask, err = toOrderBookEntries(bytes, baseVolume, quoteVolume, price, true)
+			e.Ask, err = toOrderBookEntries("ask", bytes, baseVolume, quoteVolume, price, true)
 		case 2: // bid
-			e.Bid, err = toOrderBookEntries(bytes, baseVolume, quoteVolume, price, false)
+			e.Bid, err = toOrderBookEntries("bid", bytes, baseVolume, quoteVolume, price, false)
 		}
 	}, paths...)
 
@@ -174,7 +174,7 @@ func (ol orderBookEntryList) Len() int {
 }
 
 func toOrderBookEntries(
-	ba []byte, baseVolumeName, quoteVolumeName, price string, sortAsc bool,
+	t string, ba []byte, baseVolumeName, quoteVolumeName, price string, sortAsc bool,
 ) (entries []OrderBookEntry, err error) {
 	paths := [][]string{
 		{baseVolumeName},
@@ -183,29 +183,28 @@ func toOrderBookEntries(
 	}
 
 	entries = make([]OrderBookEntry, 0)
-	hasError := false
 	_, err = jsonparser.ArrayEach(ba, func(ba []byte, _ jsonparser.ValueType, _ int, pErr error) {
-		hasError = hasError || pErr != nil
+		hasError := err != nil || pErr != nil
 		if hasError {
 			err = firstError(err, pErr)
 			return
 		}
 
 		e := OrderBookEntry{}
+		i := -1
 		jsonparser.EachKey(ba, func(idx int, ba []byte, _ jsonparser.ValueType, pErr error) {
-			hasError = hasError || pErr != nil
+			i++
+			hasError = err != nil || pErr != nil
 			if hasError {
 				err = firstError(err, pErr)
-
 				return
 			}
 
 			asString := string(ba)
 			v, vErr := strconv.ParseFloat(asString, 64)
 			if vErr != nil {
-				err = fmt.Errorf("fail to parse price %s: %w", asString, vErr)
+				err = fmt.Errorf("fail to parse price %s[%d].%s='%s': %w", t, i, paths[idx][0], asString, vErr)
 				hasError = true
-
 				return
 			}
 
