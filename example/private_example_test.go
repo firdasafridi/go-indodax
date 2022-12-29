@@ -4,13 +4,11 @@ import (
 	"fmt"
 	"log"
 	"time"
-	
-	"github.com/firdasafridi/go-indodax"
+
+	"github.com/edward-yakop/go-indodax"
 )
 
-//
 // Example trade buy
-//
 func ExampleClient_TradeBuy() {
 	cl, err := indodax.NewClient(
 		"Key",
@@ -138,11 +136,11 @@ func ExampleClient_TradeHitory() {
 
 	// set time is optional
 	sinceTime := time.Date(
-	    2000, 11, 17, 20, 34, 58, 651387237, time.UTC)
+		2000, 11, 17, 20, 34, 58, 651387237, time.UTC)
 	endTime := time.Date(
 		2020, 11, 17, 20, 34, 58, 651387237, time.UTC)
-	
-	// count, start trade id, and end trade id is optional 
+
+	// count, start trade id, and end trade id is optional
 	var count, startTradeId, endTradeId int64 = 10, 20, 30
 
 	// order is optional
