@@ -1,4 +1,4 @@
-module github.com/firdasafridi/go-indodax
+module github.com/edward-yakop/go-indodax
 
 go 1.19
 
